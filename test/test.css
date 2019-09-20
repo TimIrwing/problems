@@ -1,0 +1,18 @@
+.some {
+  background-color: #afafaf;
+  display: flex;
+  --something: green;
+}
+
+.xd {
+  width: 100px;
+  box-sizing: border-box;
+  height: 100px;
+  margin: 25px;
+  background-color: #583489;
+  border: 5px dashed var(--something);
+}
+
+.body {
+  border: 2px solid blue;
+}

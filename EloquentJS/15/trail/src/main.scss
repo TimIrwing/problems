@@ -1,0 +1,28 @@
+html {
+  background-color: rgb(32, 35, 45);
+  cursor: all-scroll;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.trail {
+  position: absolute;
+  width: 15px;
+  height: 60px;
+  background-color: white;
+  border: 1px solid rgb(59, 59, 59);
+  border-radius: 50%;
+  transform: rotate(-45deg);
+
+  &:last-of-type,
+  &:first-of-type {
+    background-color: rgb(190, 170, 212);
+  }
+}
+
+body {
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}

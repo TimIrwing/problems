@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <canvas width="1000" height="300"></canvas>
+  <script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    cx.lineWidth = 2;
+
+    drawTrapezoid(80, 80, 160, 0, cx);
+    drawRedDiamond(150, 200, cx);
+    drawZigZagLine(20, 11, 400, cx);
+    drawSpiral(30, 25, 600, cx);
+    drawStar(90, 8, 0.5, 800, cx);
+
+    function drawTrapezoid(altitude, a, b, offset, cx) {
+      let currentX = offset + 100;
+      let currentY = 100;
+
+      cx.beginPath();
+      cx.moveTo(currentX - a / 2, currentY - altitude / 2);
+      cx.lineTo(currentX + a / 2, currentY - altitude / 2);
+      cx.lineTo(currentX + b / 2, currentY + altitude / 2);
+      cx.lineTo(currentX - b / 2, currentY + altitude / 2);
+      cx.lineTo(currentX - a / 2, currentY - altitude / 2);
+      cx.stroke();
+    }
+
+    function drawRedDiamond(diagonal, offset, cx) {
+      cx.beginPath();
+      const width = Math.sqrt(diagonal ** 2 / 2);
+      let currentX = offset + 100;
+      let currentY = (200 - diagonal) / 2;
+      cx.fillStyle = "#f00";
+      cx.save();
+      cx.translate(currentX, currentY);
+      cx.rotate(Math.PI / 4)
+      cx.rect(0, 0, width, width);
+      cx.restore();
+      cx.fill();
+    }
+
+    function drawZigZagLine(stepSize, steps, offset, cx) {
+      let currentX = offset;
+      let currentY = 0;
+
+      cx.beginPath();
+      do {
+        cx.lineTo(currentX, currentY);
+        currentX += currentX === offset  ? 200 : -200;
+        currentY += stepSize;
+        --steps;
+      } while (steps > 0)
+      cx.stroke();
+    }
+
+    function drawSpiral(step, quality, offset, cx) {
+      step /= quality;
+      let radius = step;
+      let currentX = offset + 100;
+      let currentY = 100;
+      let angle = -Math.PI / 2;
+
+      cx.beginPath()
+      cx.moveTo(currentX, currentY);
+      while (currentX <= offset + 200 &&
+              currentX >= offset &&
+              currentY >= 0 &&
+              currentY <= 200) {
+        currentX += Math.sin(angle) * -radius;
+        currentY += Math.cos(angle) * radius;
+        angle += Math.PI / quality;
+        radius += step / quality;
+        cx.lineTo(currentX, currentY)
+      }
+      cx.stroke();
+    }
+
+    function drawStar(radius, spikes, spikeRatio, offset, cx) {
+      let currentX = offset + 100;
+      let currentY = 100;
+      cx.fillStyle = "#FFA500";
+
+      cx.beginPath();
+      for (let angle = -Math.PI / 2; angle < Math.PI * 1.5; angle += Math.PI / 360) {
+        let curRadius = radius - circleHalfEquation(angle + Math.PI / 2, radius * spikeRatio, spikes);
+        cx.lineTo(currentX + Math.cos(angle) * curRadius, currentY + Math.sin(angle) * curRadius)
+      }
+      cx.fill();
+
+      function circleHalfEquation(angle, radius, spikes) {
+        const pi = Math.PI;
+        angle %= pi * 2 / spikes;
+        return radius / pi * Math.sqrt(pi ** 2 - ((angle - pi / spikes) * spikes) ** 2);
+      }
+    }
+  </script>
+</body>
+</html>

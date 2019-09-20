@@ -1,0 +1,79 @@
+<body>
+ <h1>Mountains</h1>
+
+ <style>
+  #mountains {
+   width: max-content; border: 2px solid green;
+  }
+
+  * {
+   box-sizing: border-box;
+  }
+ </style>
+
+ <div id="mountains"></div>
+
+ <script>
+  const MOUNTAINS = [
+   { name: "Kilimanjaro", height: 5895, place: "Tanzania" },
+   { name: "Everest", height: 8848, place: "Nepal" },
+   { name: "Mount Fuji", height: 3776, place: "Japan" },
+   { name: "Vaalserberg", height: 323, place: "Netherlands" },
+   { name: "Denali", height: 6168, place: "United States" },
+   { name: "Popocatepetl", height: 5465, place: "Mexico" },
+   { name: "Mont Blanc", height: 4808, place: "Italy/France" }
+  ];
+
+  const div = document.getElementById(`mountains`);
+
+  createTable(MOUNTAINS, div)
+
+  function createTable(source, target) {
+   const table = document.createElement(`table`);
+   const keys = capitalize(Object.keys(source[0]));
+
+   addRow(keys, table, `th`);
+   for (const entry of source) {
+     addRow(entry, table, `td`);
+   }
+
+   target.appendChild(table);
+  }
+
+  function addRow(source, table, cellType) {
+   const tableRow = document.createElement(`tr`);
+
+   addCell(source, tableRow, cellType);
+
+   table.appendChild(tableRow);
+  }
+
+  function addCell(source, tableRow, cellType) {
+   for (const val in source) {
+    const cell = document.createElement(cellType);
+    const text = document.createTextNode(source[val])
+
+    cell.appendChild(text);
+
+    cell.style.border = `1px solid black`;
+    if (typeof source[val] === `number`) cell.style.textAlign = `right`;
+
+    tableRow.appendChild(cell);
+   }
+  }
+
+  function capitalize(src) {
+   if (typeof src === `object`) {
+    const local = [...src];
+
+    for (const i in local) {
+     local[i] = capitalize(local[i]);
+    }
+
+    return local;
+   } else {
+    return src.replace(src[0], src[0].toUpperCase());
+   }
+  }
+ </script>
+</body>

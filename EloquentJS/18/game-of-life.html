@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+
+</head>
+<body>
+  <style>
+    .cellContainer {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+    }
+    .cell {
+      position: absolute;
+      margin: 0;
+      padding: 0;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .checkmark {
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      position: absolute;
+      border: 1px solid rgb(187, 187, 187);
+      background-color: rgb(224, 224, 224);
+    }
+
+    .cellContainer .cell:checked ~ .checkmark {
+      background-color: rgb(236, 150, 186);
+    }
+
+    #grid {
+      padding: 10px;
+      line-height: 0px;
+    }
+  </style>
+  <div id="grid"></div>
+  <button id="next">Next generation</button>
+  <script>
+    const gridElement = document.querySelector(`#grid`);
+    const grid = [];
+    const next = document.querySelector(`#next`);
+
+    const WIDTH = 30;
+
+    const cell = document.createElement(`input`);
+    cell.classList.add(`cell`);
+    cell.type = `checkbox`;
+
+    const checkmark = document.createElement(`span`);
+    checkmark.classList.add(`checkmark`);
+
+    const cellContainer = document.createElement(`label`);
+    cellContainer.classList.add(`cellContainer`);
+    cellContainer.appendChild(cell);
+    cellContainer.appendChild(checkmark);
+
+    for (let i = 0; i < WIDTH; ++i) {
+      const row = [];
+
+      for (let j = 0; j < WIDTH; ++j) {
+        const node = cellContainer.cloneNode({ deep: true });
+        node.firstElementChild.checked = Math.random() < 0.4;
+
+        gridElement.appendChild(node);
+        row.push(node);
+      }
+
+      gridElement.appendChild(document.createElement(`br`));
+
+      grid.push(row);
+    }
+
+    next.addEventListener(`click`, () => {
+      const matrix = copyFromGrid(grid);
+
+      const result = [];
+
+      for (let i = 0; i < matrix.length; ++i) {
+        const row = [];
+
+        for (let j = 0; j < matrix[i].length; ++j) {
+          const { neighborCount, isAlive } = cellData(matrix, i, j);
+
+          if (isAlive) {
+            row.push(Number(neighborCount === 2 || neighborCount === 3))
+          } else {
+
+
+            row.push(Number(neighborCount === 3))
+          }
+        }
+
+        result.push(row);
+      }
+
+      setGrid(grid, result);
+    });
+
+    function setGrid(grid, matrix) {
+      for (let i = 0; i < matrix.length; ++i) {
+        for (let j = 0; j < matrix[i].length; ++j) {
+          grid[i][j].firstElementChild.checked = Boolean(matrix[i][j]);
+        }
+      }
+    }
+
+    function cellData(matrix, x, y) {
+      let neighborCount = 0;
+      let isAlive = false;
+
+      for (let i = -1; i <= 1; ++i) {
+        for (let j = -1; j <= 1; ++j) {
+
+          if (i !== 0 || j !== 0) {
+            try {
+              const val = matrix[x + i][y + j];
+
+              neighborCount += (val !== undefined) ? val : 0
+            } catch (e) {
+
+            }
+          } else {
+            isAlive = Boolean(matrix[x][y]);
+          }
+        }
+      }
+
+      return { neighborCount, isAlive };
+    }
+
+    function copyFromGrid(grid) {
+      const result = [];
+
+      for (let i = 0; i < grid.length; ++i) {
+        const row = [];
+
+        for (let j = 0; j < grid[i].length; ++j) {
+          row.push(Number(grid[i][j].firstElementChild.checked));
+        }
+
+        result.push(row);
+      }
+
+      return result;
+    }
+  </script>
+</body>
+</html>

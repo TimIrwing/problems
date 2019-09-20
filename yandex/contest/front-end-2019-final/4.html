@@ -1,0 +1,165 @@
+<html>
+<head>
+    <meta http-equiv="Content-Security-Policy" content="img-src 'none'">
+    <link rel="stylesheet" href="font.css">
+    <style>
+      body {
+        font: 11px arialregular;
+        margin: 0;
+      }
+      .ymaps {
+        position: relative;
+        margin: 0;
+        width: 500px;
+        height: 500px;
+        transform-origin: top left;
+        transform: translateX(383px) rotate(50deg);
+        overflow: hidden;
+      }
+      .street {
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 400px;
+        color: #737167;
+        border-top: solid 1px #dfd9d8;
+        border-bottom: solid 1px #dfd9d8;
+        text-align: center;
+        line-height: 17px;
+        height: 17px;
+        background: white;
+      }
+      .street:first-of-type {
+        top: 483px;
+      }
+      .lane {
+        position: absolute;
+        box-sizing: border-box;
+        top: 16px;
+        left: 0;
+        width: 315px;
+        height: 94px;
+        border-right: solid 1px #dfd9d8;
+        border-bottom: solid 1px #dfd9d8;
+        border-bottom-right-radius: 38px;
+      }
+      .lane::before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        width: 306px;
+        height: 85px;
+        border-right: solid 1px #dfd9d8;
+        border-bottom: solid 1px #dfd9d8;
+        border-bottom-right-radius: 30px;
+      }
+      .lane::after {
+        content: '';
+        position: absolute;
+        display: block;
+        background: white;
+        width: 8px;
+        height: 4px;
+        z-index: 1;
+        top: -1px;
+        left: 306px;
+      }
+      .house-1,
+      .house-2,
+      .house-3,
+      .house-4,
+      .house-5,
+      .house-6,
+      .entrance {
+        position: absolute;
+        width: 400px;
+        height: 80px;
+        background: #f5f1e5;
+      }
+      .entrance {
+        width: 40px;
+        height: 20px;
+        transform-origin: top left;
+        transform: rotate(-25deg);
+        left: 124px;
+      }
+      .house-1 {
+        transform: rotate(180deg);
+        top: 130px;
+        width: 320px;
+        left: 60px;
+      }
+      .house-2 {
+        transform-origin: bottom left;
+        transform: rotate(90deg);
+        top: 70px;
+        width: 320px;
+      }
+      .house-3 {
+        width: 320px;
+        top: 390px;
+        left: 80px;
+      }
+      .house-4 {
+        left: 40px;
+        transform-origin: bottom right;
+        transform: rotate(-90deg);
+        top: -50px;
+        width: 360px;
+      }
+      .house-4 .entrance {
+        left: 164px;
+      }
+      .house-5 {
+        height: 50px;
+        top: 30px;
+        width: 300px;
+      }
+      .marker {
+        position: absolute;
+        transform: rotate(-50deg);
+        top: 295px;
+        left: 355px;
+      }
+      .marker::before {
+        position: absolute;
+        content: 'Я';
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        border-radius: 100%;
+        color: red;
+        background: white;
+        top: -20px;
+        left: 8px;
+      }
+      </style>
+</head>
+<body>
+    <div class="ymaps">
+        <div class="street">ул. Льва Толстого</div>
+
+        <div class="house-1">
+            <div class="entrance"></div>
+        </div>
+        <div class="house-2">
+            <div class="entrance"></div>
+        </div>
+        <div class="house-3">
+            <div class="entrance"></div>
+        </div>
+        <div class="house-4">
+            <div class="entrance"></div>
+        </div>
+        <div class="house-5"></div>
+
+        <div class="marker">Яндекс</div>
+
+        <div class="lane"></div>
+
+        <div class="street">ул. Тимура Фрунзе</div>
+    </div>
+</body>
+</html>

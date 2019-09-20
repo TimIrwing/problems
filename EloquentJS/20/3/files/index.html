@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>XDDD</title>
+  <style>
+    body {
+      overflow: hidden;
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+    form {
+      display: grid;
+      grid-template:
+        "s b" 5%
+        "t t" 1fr;
+      height: 100%;
+      overflow: hidden;
+      border: none;
+    }
+    #page {
+      grid-area: t;
+      resize: none;
+      padding: 4px;
+
+      font-size: 16px;
+      border: none;
+    }
+    button {
+      grid-area: b;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    select {
+      grid-area: s;
+      font-size: 18px;
+    }
+    * {
+      font-family: monospace;
+
+      background-color: #282c34;
+      font-weight: 400;
+      color: #d5def0;
+    }
+  </style>
+</head>
+<body>
+  <form action='' onsubmit='post(event)'>
+    <select name="files" id="files"></select>
+
+    <textarea spellcheck='false' name="page" id="page"></textarea>
+
+    <button>Send</button>
+  </form>
+
+  <script src="./index.js"></script>
+</body>
+</html>

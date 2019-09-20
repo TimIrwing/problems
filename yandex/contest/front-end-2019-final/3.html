@@ -1,0 +1,60 @@
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+        #map {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: url(http://localhost:3000/background);
+        }
+    </style>
+    <script type="text/javascript">
+        (function () {
+            const TILE_SIZE = 256;
+            window.onload = function() {
+                const map = document.querySelector('#map');
+                const xMax = Math.ceil((document.body.offsetWidth + TILE_SIZE) / (2 * TILE_SIZE));
+                const yMax = Math.ceil((document.body.offsetHeight + TILE_SIZE) / (2 * TILE_SIZE));
+                const xOffset = document.body.offsetWidth / 2 - .5 * TILE_SIZE;
+                const yOffset = document.body.offsetHeight / 2 - .5 * TILE_SIZE;
+                let result = [];
+                let x = 0;
+                let y = 0;
+                do {
+                    // asdasd
+
+                    if (x < xMax) ++x;
+                    if (y < yMax) ++y;
+                } while (x < xMax && y < yMax)
+                // Когда карта полностью готова (загружены все тайлы, в том числе дополнительный "пояс"),
+                // надо вызвать window.onMapReady.
+                Promise.all(result)
+                    .then(()=>{window.onMapReady()}, ()=>{window.onMapReady()})
+                    .catch((e)=>{});
+
+                function drawTile(x, y) {
+                            const img = document.createElement('img');
+                            img.width = TILE_SIZE;
+                            img.height = TILE_SIZE;
+                            img.style.position = 'absolute';
+                            img.style.left = xOffset + x * TILE_SIZE;
+                            img.style.top = yOffset + y * TILE_SIZE;
+                            img.src = `http://localhost:3000/${x}.${y}`;
+                            const promise = new Promise(
+                                (resolve) => img.addEventListener('load', () => resolve(img)
+                            ));
+                            map.appendChild(img);
+                            result.push(promise);
+                    }
+            };
+        })();
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>

@@ -1,0 +1,222 @@
+body {
+  margin: 0;
+  font-family: arialregular;
+  font-size: 13px;
+  line-height: 16px;
+  color: #333;
+}
+
+.red {
+  background-color: #ffebee;
+}
+
+.darkblue {
+  background-color: #ede7f6;
+}
+
+.aqua {
+  background-color: #e0f7fa;
+}
+
+.green {
+  background-color: #e8f5e9;
+}
+
+.yellow {
+  background-color: #fffde7;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: #fcfcfc;
+}
+
+.content {
+  position: relative;
+  padding-top: 48px;
+  background: linear-gradient(#ec3229 400px, white 400px);
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  width: 800px;
+}
+
+.content__title {
+  margin: 0;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  font-weight: bold;
+  padding: 0 80px;
+}
+
+.content__tags {
+  margin: 24px 0 32px 0;
+  padding: 0 80px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.tags__item {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.tags__label {
+  padding: 8px 12px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+  color: #fff;
+  line-height: 1;
+  font-weight: bold;
+  mix-blend-mode: screen;
+  cursor: pointer;
+}
+
+.content__subtitle {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #fff;
+  padding-left: 80px;
+  margin-bottom: 24px;
+}
+
+.content__carousel {
+  padding-left: 65px;
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+  // overflow-y: hidden;
+  padding-bottom: 24px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.content__carousel:after {
+  content: '';
+  border-right: 40px solid transparent;
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 328px;
+  margin-right: 16px;
+  display: none;
+  height: 400px;
+}
+
+.article__image-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.article__image-container .image__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.article__tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  border-radius: 3px;
+  padding: 7px 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+  color: #000;
+  background-color: #fff;
+}
+
+.article__content {
+  padding: 16px 16px 12px 16px;
+}
+
+.article__places-count {
+  color: #999;
+}
+
+.article__title {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: bold;
+  margin: 0;
+  margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -moz-line-clamp: 2;
+  -webkit-line-clamp: 2;
+  max-height: 40px;
+  object-fit: cover;
+}
+
+.article__preview-text {
+  display: inline-block;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+  overflow: hidden;
+  -moz-line-clamp: 3;
+  -webkit-line-clamp: 3;
+  width: 296px;
+  color: #4d4d4d;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  max-height: 48px;
+}
+
+.article__author {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.article__author .image__placeholder {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 4px;
+}
+
+.author__name {
+  color: #999;
+}
+
+.radio {
+  display: none;
+}
+
+#restaurants:checked ~ .main .article.category__restaurants {
+  display: block;
+}
+
+#restaurants:checked ~ .main .tags__label.restaurants {
+  background-color: #fff;
+  color: black;
+}
+
+#popular:checked ~ .main .article.category__popular {
+  display: block;
+}
+
+#popular:checked ~ .main .tags__label.popular {
+  background-color: #fff;
+  color: black;
+}

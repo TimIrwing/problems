@@ -1,0 +1,48 @@
+<body>
+  <canvas width="400" height="400"></canvas>
+  <script>
+    let cx = document.querySelector("canvas").getContext("2d");
+    const boxDimensions = [150, 300];
+    const ballDimensions = [30, 30];
+    const lineWidth = 4;
+    const ballSpeed = 250; // px per second
+    let ballMajR = ballDimensions[0] / 2;
+    let ballMinR = ballDimensions[1] / 2;
+    const xPos = boxDimensions[0] / 2 - ballMajR / 2 + lineWidth;
+    let yPos = ballMinR + lineWidth;
+    let direction = 1;
+
+    let lastTime = 0;
+    function frame(time) {
+
+      updateAnimation(Math.min(100, time - lastTime) / 1000);
+      lastTime = time;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+
+    function updateAnimation(step) {
+      cx.clearRect(0, 0, lineWidth * 2 + boxDimensions[0], lineWidth * 2 + boxDimensions[1])
+      cx.fillStyle = `#FFBF40`;
+      cx.strokeStyle = `#A66F00`;
+      cx.lineWidth = lineWidth;
+
+      cx.fillRect(lineWidth - 2, lineWidth - 2, ...boxDimensions);
+      cx.strokeRect(lineWidth - 2, lineWidth - 2, ...boxDimensions);
+
+      yPos += ballSpeed * step * direction;
+
+      if (
+        yPos > boxDimensions[1] - ballMinR ||
+        yPos <= lineWidth + ballMinR && direction === -1
+      ) {
+        direction *= -1;
+      }
+
+      cx.fillStyle = `#A8D6F1`;
+      cx.beginPath();
+      cx.ellipse(xPos, yPos, ballMajR, ballMinR, 0, 0, 7);
+      cx.fill();
+    }
+  </script>
+</body>

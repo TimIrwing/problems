@@ -1,0 +1,40 @@
+<style>body { min-height: 200px;  margin: 100; position: relative;}
+       img {box-sizing: border-box;}
+       </style>
+
+ <img src="https://eloquentjavascript.net/img/cat.png" id="cat" style="position: absolute;">
+ <img src="https://eloquentjavascript.net/img/hat.png" id="hat" style="position: absolute;">
+
+
+<script>
+  let cat = document.querySelector("#cat");
+  let hat = document.querySelector("#hat");
+
+  let angle = 0;
+  let lastTime = null;
+  function animate(time) {
+    if (lastTime != null) angle += (time - lastTime) * 0.001;
+    lastTime = time;
+    cat.style.top = (Math.sin(angle) * 200 + 200) + "px";
+    cat.style.left = (Math.cos(angle) * 220 + 220) + "px";
+
+
+
+    hat.style.top = (
+     Math.sin(angle) * 110
+     - parseFloat(hat.clientHeight) / 2
+     + parseFloat(cat.style.top)
+     + parseFloat(cat.clientHeight) / 2) + "px";
+
+    hat.style.left = (
+     Math.cos(angle) * -100
+     - parseFloat(hat.clientWidth) / 2
+     + parseFloat(cat.style.left)
+     + parseFloat(cat.clientWidth) / 2) + "px";
+
+    // Your extensions here.
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+</script>
