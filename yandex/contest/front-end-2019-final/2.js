@@ -1,32 +1,27 @@
 module.exports = function(servers, check) {
-  // return new Promise((res, rej) => {
-  //   let min = 0;
-  //   let max = servers.length - 1;
-  //   let middle;
+    let min = 0;
+    let max = servers.length - 1;
 
-  //   while (min < max) {
-  //     middle = Math.floor((max + min) / 2);
+    return binsearch(Math.floor(servers.length / 2));
 
-  //     check(servers[middle]).then((val) => {
-  //       if (val) {
-  //         min = middle + 1;
-  //       } else {
-  //         max = middle - 1;
-  //       }
-  //     });
-  //   }
-
-  //   res(servers[min]);
-  // });
-  return Promise.all(servers.map(convert)).catch((val) => val);
-
-  function convert(server) {
-    return new Promise((resolve, reject) => {
-      check(server).then((val) => {
-        if (!val) {
-          reject(server);
+    function binsearch(mid) {
+        if (min >= max) {
+            return check(servers[min]).then((val) => {
+                if (val) {
+                    return servers[min + 1];
+                }
+                return servers[min];
+            });
         }
-      });
-    });
-  }
+
+        return check(servers[mid])
+            .then((val) => {
+                if (val) {
+                    min = mid + 1;
+                } else {
+                    max = mid - 1;
+                }
+            })
+            .then(() => binsearch(Math.floor((min + max) / 2)));
+    }
 };
