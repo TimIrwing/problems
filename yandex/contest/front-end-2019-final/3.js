@@ -1,23 +1,51 @@
-const http = require('http');
+(function() {
+    const TILE_SIZE = 256;
+    window.onload = function() {
+        const map = document.querySelector('#map');
+        const xMax = Math.ceil(
+            (document.body.offsetWidth + TILE_SIZE) / (2 * TILE_SIZE)
+        );
+        const yMax = Math.ceil(
+            (document.body.offsetHeight + TILE_SIZE) / (2 * TILE_SIZE)
+        );
+        const xOffset = document.body.offsetWidth / 2 - TILE_SIZE / 2;
+        const yOffset = document.body.offsetHeight / 2 - TILE_SIZE / 2;
+        let result = Promise.resolve();
+        const cells = [];
 
-const server = http
-  .createServer((request, response) => {
-    response.writeHead(200, { 'Content-Type': 'image/svg+xml' });
-    const url = request.url;
-    setTimeout(
-      () => response.end(getImage(url), 'utf-8'),
-      url === '/background' ? 2000 : 200
-    );
-  })
-  .listen(3000);
+        for (let y = -yMax; y <= yMax; ++y) {
+            for (let x = -xMax; x <= xMax; ++x) {
+                cells.push([[x, y], distanceToCenter(x, y)]);
+            }
+        }
 
-function getImage(url) {
-  return `
-        <svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
-            <rect width="256" height="256" style="fill:${url === '/background'
-              ? '#eee'
-              : '#ddf'}" />
-            <text xmlns="http://www.w3.org/2000/svg" x="50" y="50">${url}</text>
-        </svg>
-    `;
-}
+        cells.sort((a, b) => a[1] - b[1]);
+
+        for (const [[x, y]] of cells) {
+            result = result.then(() => {
+                const img = document.createElement('img');
+                img.width = TILE_SIZE;
+                img.height = TILE_SIZE;
+                img.style.position = 'absolute';
+                img.style.left = TILE_SIZE * x + xOffset;
+                img.style.top = TILE_SIZE * y + yOffset;
+                img.src = `http://localhost:3000/${x}.${y}`;
+
+                const promise = new Promise((resolve) =>
+                    img.addEventListener('load', () => resolve(img))
+                );
+
+                map.appendChild(img);
+                return promise;
+            });
+        }
+
+        // Когда карта полностью готова (загружены все тайлы, в том числе дополнительный "пояс"),
+        // надо вызвать window.onMapReady.
+        result.then(window.onMapReady);
+
+        function distanceToCenter(x, y) {
+            return Math.sqrt(x ** 2 + y ** 2);
+        }
+    };
+})();
