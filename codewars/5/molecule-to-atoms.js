@@ -1,31 +1,23 @@
 function parseMolecule(formula) {
-    const result = {};
     const parts = formula.match(
         /([A-Z][a-z]*\d*)|(\(.*?\)\d*)|(\[.*?\]\d*)|(\{.*?\}\d*)/g
     );
 
-    for (const str of parts) {
-        if (isGroup(str)) {
-            addAtoms(result, parseGroup(str));
-        } else {
-            addAtoms(result, parseAtoms(str));
-        }
-    }
+    const result = {};
+
+    parts.forEach((str) => {
+        isGroup(str)
+            ? addAtoms(result, parseGroup(str))
+            : addAtoms(result, parseAtom(str));
+    });
 
     return result;
 }
 
-function parseAtoms(input) {
-    const atoms = input.match(/([A-Z][a-z]*)(\d*)/g);
-    const result = {};
+function parseAtom(input) {
+    const [_, atom, count] = input.match(/([A-Z][a-z]*)(\d*)/);
 
-    for (const str of atoms) {
-        const [_, atom, count] = str.match(/([A-Z][a-z]*)(\d*)/);
-
-        result[atom] = formatCount(count);
-    }
-
-    return result;
+    return { [atom]: formatCount(count) };
 }
 
 function parseGroup(str) {
@@ -35,6 +27,19 @@ function parseGroup(str) {
     );
 
     return multiplyAtoms(parseMolecule(formula), formatCount(count));
+}
+
+function chooseBrackets(str) {
+    for (const letter of str) {
+        switch (letter) {
+            case '(':
+                return '()';
+            case '[':
+                return '[]';
+            case '{':
+                return '{}';
+        }
+    }
 }
 
 function addAtoms(to, from) {
@@ -52,36 +57,19 @@ function addAtoms(to, from) {
 }
 
 function multiplyAtoms(atoms, count) {
-    for (const atom in atoms) {
-        if (atoms.hasOwnProperty(atom)) {
-            atoms[atom] *= count;
-        }
-    }
+    Object.keys(atoms).map((key) => (atoms[key] *= count));
 
     return atoms;
 }
 
 function isGroup(str) {
-    return Boolean(str.match(/[\(\[\{]/));
-}
-
-function chooseBrackets(str) {
-    for (const letter of str) {
-        switch (letter) {
-            case '(':
-                return '()';
-            case '[':
-                return '[]';
-            case '{':
-                return '{}';
-        }
-    }
+    return /[\(\[\{]/.test(str);
 }
 
 function formatCount(str) {
     const result = Number(str);
 
-    if (result === 0 || isNaN(result)) return 1;
+    if (result) return result;
 
-    return result;
+    return 1;
 }
