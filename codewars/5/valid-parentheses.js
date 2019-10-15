@@ -1,12 +1,15 @@
-function validParentheses(parens) {
-    return checkSequence(parens, 0) === 0;
+function validParentheses(sequence) {
+    const stack = [];
 
-    function checkSequence(str, leftover) {
-        if (leftover < 0 || str.length === 0) return leftover;
-
-        return checkSequence(
-            str.slice(1),
-            leftover + (str[0] === '(' ? 1 : -1)
-        );
+    for (const parenthesis of sequence) {
+        if (parenthesis === '(') {
+            stack.push(parenthesis);
+        } else if (stack.length > 0) {
+            stack.pop();
+        } else {
+            return false;
+        }
     }
+
+    return stack.length === 0;
 }
